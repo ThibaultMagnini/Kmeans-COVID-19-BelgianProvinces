@@ -2,7 +2,7 @@ import pandas as pd
 from pretty_html_table import build_table
 
 def look_for_province(list):
-    data = pd.read_csv('covid_belgium\Datasets\output.csv')
+    data = pd.read_csv('Datasets\output.csv')
     for entry in data.itertuples():
         if entry[9] == list[0]:
             return entry[1]

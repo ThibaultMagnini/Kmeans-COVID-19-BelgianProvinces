@@ -1,4 +1,4 @@
-from kmeans_improved import *
+from kmeans import *
 import matplotlib.pyplot as plt
 from mpl_toolkits import mplot3d
 from util import *
@@ -6,7 +6,7 @@ import pandas as pd
 import math
 
 
-"""kmeans3 = Kmeans('covid_belgium/output.csv', 3)
+"""kmeans3 = Kmeans('Datasets/output.csv', 3)
 kmeans3.read_csv(['INFECTION_RATE', 'TEST_POS_PERCENTAGE'])
 kmeans3.start_clustering()
 print(kmeans3.c)"""
@@ -28,7 +28,7 @@ plt.show() """
 
 kmeans = {}
 for i in range(1, 6):
-    kmeans[i] = Kmeans('covid_belgium/Datasets/output.csv', i)
+    kmeans[i] = Kmeans('Datasets/output.csv', i)
     kmeans[i].read_csv(['TOTAL_INFECTIONS', 'TEST_ALL'])
     print(kmeans[i].original_dataset)
     kmeans[i].start_clustering()
@@ -48,7 +48,7 @@ plt.plot(x, y)
 plt.scatter(x, y)
 plt.title("Elbow graph")
 
-with open("covid_belgium/Results/index.html", "w") as file:
+with open("Results/index.html", "w") as file:
     file.write("")
 
 for key in kmeans:
@@ -65,7 +65,7 @@ for key in kmeans:
     table = table.sort_values(by=['Cluster'])
     html = generate_html_table(table)
     
-    with open("covid_belgium/Results/index.html", "a") as file:
+    with open("Results/index.html", "a") as file:
         file.write(f'<h2>K = {key}</h2>')
         file.write(html)
 
