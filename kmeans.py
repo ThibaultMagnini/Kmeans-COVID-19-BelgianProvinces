@@ -71,7 +71,7 @@ class Kmeans:
 
     def draw_scatter_plot(self, xlabel, ylabel, xlim, ylim, show=True):
         """
-        Draws the scatter plot of the kmeans clustering
+        Draws the scatter plot of the kmeans clustering, should only be used when using 2 features in the model
 
         Args:
             xlabel (string): label for the X-axis
