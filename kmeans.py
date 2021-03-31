@@ -15,16 +15,6 @@ class Kmeans:
         accuracy (float): The mean squared distance for the model
         path (string): Path to the csv file for this model
         k (int): Amount of clusters for this model
-
-    Methods:
-        read_csv(features):
-            Reads the csv file and initializes the original_dataset
-        start_clustering():
-            Starts the clustering
-        draw_scatter_plot(xlabel, ylabel, xlim, ylim, show=True):
-            Draws the scatter plot of the kmeans clustering
-        get_clusters_info():
-            Returns information about each clusters features
     """
     original_dataset = []
     c = []
