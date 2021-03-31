@@ -2,9 +2,9 @@ import pandas as pd
 import csv
 import math
 
-info_infections = pd.read_csv('covid_belgium\Datasets\COVID19BE_CASES_AGESEX.csv')
+info_infections = pd.read_csv('Datasets\COVID19BE_CASES_AGESEX.csv')
 
-info_test = pd.read_csv('covid_belgium\Datasets\COVID19BE_tests.csv')
+info_test = pd.read_csv('Datasets\COVID19BE_tests.csv')
 
 data = {}
 
@@ -49,17 +49,17 @@ for key in data:
 
 
 # Calculates ICU rates per province in percentages.
-data["Antwerpen"][1] = 9043 / 1869730
-data["Brussels"][1] = 9292 / 1218255
-data["Liège"][1] = 6588 / 1109800
-data["Limburg"][1] = 4243 / 877370
-data["OostVlaanderen"][1] = 7783 / 1525255
-data["VlaamsBrabant"][1] = 2506 / 1155843
-data["BrabantWallon"][1] = 1181 / 406016
-data["WestVlaanderen"][1] = 7788 / 1200945
-data["Hainaut"][1] = 9565 / 1346840
-data["Namur"][1] = 2398 / 495832
-data["Luxembourg"][1] = 1238 / 286752
+data["Antwerpen"][1] = 9043 / data["Antwerpen"][7]
+data["Brussels"][1] = 9292 / data["Brussels"][7]
+data["Liège"][1] = 6588 / data["Liège"][7]
+data["Limburg"][1] = 4243 / data["Limburg"][7]
+data["OostVlaanderen"][1] = 7783 / data["OostVlaanderen"][7]
+data["VlaamsBrabant"][1] = 2506 / data["VlaamsBrabant"][7]
+data["BrabantWallon"][1] = 1181 / data["BrabantWallon"][7]
+data["WestVlaanderen"][1] = 7788 / data["WestVlaanderen"][7]
+data["Hainaut"][1] = 9565 / data["Hainaut"][7]
+data["Namur"][1] = 2398 / data["Namur"][7]
+data["Luxembourg"][1] = 1238 / data["Luxembourg"][7]
 
 for key in data:
     data[key][1] *= 100
@@ -116,7 +116,7 @@ data = {k:v for k,v in data.items() if v[0] < 20}
 
 # Writes data to new csv file
 headers = ['PROVINCE', 'INFECTION_RATE', 'ICU_RATE', 'UNEMPLOYEMENT_RATE', 'TEST_ALL', 'TEST_POS', 'TEST_POS_PERCENTAGE', 'TOTAL_TEST_PERCENTAGE', 'TOTAL_INFECTIONS']
-with open("covid_belgium\\Datasets\\output.csv", "w", newline='') as outfile:
+with open("Datasets\\output.csv", "w", newline='') as outfile:
    writer = csv.writer(outfile)
    writer.writerow(headers)
    for i in range(len(data)):
