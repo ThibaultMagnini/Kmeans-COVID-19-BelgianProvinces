@@ -110,7 +110,7 @@ class Kmeans:
         Returns information about each clusters features
 
         Returns:
-            dict: Contains mean and stdev
+            dict: Contains mean, stdev, max, min
         """
         result = {}
         for cluster in range(self.k):
@@ -118,7 +118,9 @@ class Kmeans:
             element_cluster = np.array(self.original_dataset)[elements[0]]
             mean = np.mean(element_cluster, axis=0)
             stdev = np.std(element_cluster, axis=0)
-            result[cluster] = {"mean": mean, "stdev": stdev}
+            maximum = np.amax(element_cluster, axis=0)
+            minimum = np.amin(element_cluster, axis=0)
+            result[cluster] = {"mean": mean, "stdev": stdev, "max": maximum, "min": minimum}
         return result
 
     def __choose_initial_representatives(self):

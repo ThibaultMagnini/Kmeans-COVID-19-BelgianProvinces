@@ -1,34 +1,48 @@
 import pandas as pd
 import csv
 import math
+import re
 
 info_infections = pd.read_csv('Datasets\COVID19BE_CASES_AGESEX.csv')
 
 info_test = pd.read_csv('Datasets\COVID19BE_tests.csv')
 
+info_icu = pd.read_csv('Datasets\COVID19BE_HOSP.csv')
+
 data = {}
 
 # Calculates total confirmed cases per province
 for entry in info_infections.itertuples():
-    if entry[2] not in data:
-        data[entry[2]] = [0, 0, 0, 0, 0, 0, 0, 0]
-        data[entry[2]][0] += entry[6]
-        data[entry[2]][7] += entry[6]
-    else:
-        data[entry[2]][0] += entry[6]
-        data[entry[2]][7] += entry[6]
+    if re.search(r'2021-03-.', str(entry[1])):
+        if entry[2] not in data:
+            data[entry[2]] = [0, 0, 0, 0, 0, 0, 0, 0]
+            data[entry[2]][0] += entry[6]
+            data[entry[2]][7] += entry[6]
+        else:
+            data[entry[2]][0] += entry[6]
+            data[entry[2]][7] += entry[6]
 
 data.pop('nan', None)
 
 # Tests file
 for entry in info_test.itertuples():
-    if entry[2] not in data:
-        data[entry[2]] = [0, 0, 0, 0, 0, 0, 0, 0]
-        data[entry[2]][3] += entry[4]
-        data[entry[2]][4] += entry[5]
-    else:
-        data[entry[2]][3] += entry[4]
-        data[entry[2]][4] += entry[5]
+    if re.search(r'2021-03-.', str(entry[1])):
+        if entry[2] not in data:
+            data[entry[2]] = [0, 0, 0, 0, 0, 0, 0, 0]
+            data[entry[2]][3] += entry[4]
+            data[entry[2]][4] += entry[5]
+        else:
+            data[entry[2]][3] += entry[4]
+            data[entry[2]][4] += entry[5]
+
+# Hospitalisations file
+for entry in info_icu.itertuples():
+    if re.search(r'2021-03-.', str(entry[1])):
+        if entry[2] not in data:
+            data[entry[2]] = [0, 0, 0, 0, 0, 0, 0, 0]
+            data[entry[2]][1] += entry[6]
+        else:
+            data[entry[2]][1] += entry[6]
 
 # Calculates infaction rate by: confirmed cases / province population
 data["Antwerpen"][0] /= 1869730
@@ -49,17 +63,17 @@ for key in data:
 
 
 # Calculates ICU rates per province in percentages.
-data["Antwerpen"][1] = 9043 / data["Antwerpen"][7]
-data["Brussels"][1] = 9292 / data["Brussels"][7]
-data["Liège"][1] = 6588 / data["Liège"][7]
-data["Limburg"][1] = 4243 / data["Limburg"][7]
-data["OostVlaanderen"][1] = 7783 / data["OostVlaanderen"][7]
-data["VlaamsBrabant"][1] = 2506 / data["VlaamsBrabant"][7]
-data["BrabantWallon"][1] = 1181 / data["BrabantWallon"][7]
-data["WestVlaanderen"][1] = 7788 / data["WestVlaanderen"][7]
-data["Hainaut"][1] = 9565 / data["Hainaut"][7]
-data["Namur"][1] = 2398 / data["Namur"][7]
-data["Luxembourg"][1] = 1238 / data["Luxembourg"][7]
+data["Antwerpen"][1] /= data["Antwerpen"][7]
+data["Brussels"][1] /= data["Brussels"][7]
+data["Liège"][1] /= data["Liège"][7]
+data["Limburg"][1] /= data["Limburg"][7]
+data["OostVlaanderen"][1] /= data["OostVlaanderen"][7]
+data["VlaamsBrabant"][1] /= data["VlaamsBrabant"][7]
+data["BrabantWallon"][1] /= data["BrabantWallon"][7]
+data["WestVlaanderen"][1] /= data["WestVlaanderen"][7]
+data["Hainaut"][1] /= data["Hainaut"][7]
+data["Namur"][1] /= data["Namur"][7]
+data["Luxembourg"][1] /= data["Luxembourg"][7]
 
 for key in data:
     data[key][1] *= 100
