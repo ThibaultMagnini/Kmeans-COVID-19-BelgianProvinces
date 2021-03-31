@@ -30,6 +30,11 @@ ax.set_xlabel('Infection Rate (%)')
 ax.set_ylabel('ICU Rate (%)')
 ax.set_zlabel('Positive tests (%)')
 colors = ["red", "green", "cyan", "purple", "yellow", "blue"]
+
+rep_x = []
+rep_y = []
+rep_z = []
+
 for cluster in range(kmeans[4].k):
     elements_x = []
     elements_y = []
@@ -40,7 +45,12 @@ for cluster in range(kmeans[4].k):
         elements_x.append(element[0])
         elements_y.append(element[1])
         elements_z.append(element[2])
+        ax.plot([element[0], kmeans[4].representatives[cluster][0]], [element[1], kmeans[4].representatives[cluster][1]], [element[2], kmeans[4].representatives[cluster][2]], c=colors[cluster])
     ax.scatter3D(elements_x, elements_y, elements_z, c=colors[cluster], label=f"Cluster {cluster + 1}", alpha=1)
+    rep_x.append(kmeans[4].representatives[cluster][0])
+    rep_y.append(kmeans[4].representatives[cluster][1])
+    rep_z.append(kmeans[4].representatives[cluster][2])
+ax.scatter3D(rep_x, rep_y, rep_z, c="black", label="Representatives", alpha=1)
 ax.legend()
 plt.show()
 
