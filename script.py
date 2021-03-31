@@ -20,6 +20,8 @@ for key in kmeans:
     y.append(kmeans[key].accuracy)
 plt.plot(x, y)
 plt.scatter(x, y)
+plt.xlabel("K")
+plt.ylabel("Sum of mean squared distances")
 plt.title("Elbow graph")
 plt.show()
 
