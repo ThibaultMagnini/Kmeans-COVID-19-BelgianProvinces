@@ -3,40 +3,68 @@ import pandas as pd
 import random as rd
 import matplotlib.pyplot as plt
 
-# Class containing all the methods needed to perform kmeans clustering on a given dataset
+
 class Kmeans:
-    # Original dataset
+    """
+    A class to represent a kmeans clustering
+
+    Attributes:
+        original_dataset (list): Contains the data from the original dataset
+        c (list): Contains the information about which element belongs to which cluster
+        representatives (list): Contains the representatives for the clustering
+        accuracy (float): The mean squared distance for the model
+        path (string): Path to the csv file for this model
+        k (int): Amount of clusters for this model
+
+    Methods:
+        read_csv(features):
+            Reads the csv file and initializes the original_dataset
+        start_clustering():
+            Starts the clustering
+        draw_scatter_plot(xlabel, ylabel, xlim, ylim, show=True):
+            Draws the scatter plot of the kmeans clustering
+        get_clusters_info():
+            Returns information about each clusters features
+    """
     original_dataset = []
-    # Clustered data
     c = []
-    # Representatives
     representatives = []
-    # Mean squared distance of the clustering
     accuracy = None
 
-    # Constructor
-    # Path to the dataset file (csv format)
-    # K amount of clusters desired
     def __init__(self, path, k):
+        """
+        Constructs all the necessary attributes for the kmeans object
+
+        Args:
+            path (string): Path to the csv file for this model
+            k (int): Amount of clusters for this model
+        """
         self.path = path
         self.k = k
 
-    # Reads the csv file and initializes the original_dataset
-    # Features is a list of named features from the csv file you want to use in the model
     def read_csv(self, features):
+        """
+        Reads the csv file and initializes the original_dataset
+
+        Args:
+            features (list): List of named features from the csv file that you want to use in the model
+        """
         data = pd.read_csv(self.path)
         filtered_data = np.array([data[features[0]]]).T
         for i in range(1, len(features)):
             filtered_data = np.concatenate((filtered_data, np.array([data[features[i]]]).T), axis=1)
         self.original_dataset = filtered_data
-    # Starts the clustering
+
     def start_clustering(self):
+        """
+        Starts the clustering
+        """
         print("Start clustering")
         print("Choosing initial representatives")
         self.__choose_initial_representatives()
         print(f"Initial representatives are:\n{self.representatives}")
         representatives_changed = False
-        
+
         # Keep clustering until the representatives are fixed
         while(not representatives_changed):
             self.c = np.empty(len(self.original_dataset))
@@ -51,13 +79,17 @@ class Kmeans:
         self.__calculate_accuracy()
         print("Clustering ended")
 
-    # Draws the scatter plot of the kmeans clustering
-    # Xlabel label for X-axis
-    # Xlim limit for X-axis, array form [from ,to]
-    # Ylabel label for Y-axis
-    # Ylim limit for Y-axis, array form [from, to]
-    # Show show scatter plot at end of method, default = True
     def draw_scatter_plot(self, xlabel, ylabel, xlim, ylim, show=True):
+        """
+        Draws the scatter plot of the kmeans clustering
+
+        Args:
+            xlabel (string): label for the X-axis
+            ylabel (string): label for the Y-axis
+            xlim (list): Contains the from-to interval for the X-axis
+            ylim (list): Contains the from-to interval for the Y-axis
+            show (bool, optional): Defines if you want to show the plot at the end of the method. Defaults to True.
+        """
         colors = ["red", "green", "yellow", "purple", "cyan", "blue"]
         x = []
         y = []
@@ -83,9 +115,28 @@ class Kmeans:
         if show:
             plt.show()
 
-    # Method that choose K-unique representatives for the original dataset
+    def get_clusters_info(self):
+        """
+        Returns information about each clusters features
+
+        Returns:
+            dict: Contains mean and stdev
+        """
+        result = {}
+        for cluster in range(self.k):
+            elements = np.where(self.c == cluster)
+            element_cluster = np.array(self.original_dataset)[elements[0]]
+            mean = np.mean(element_cluster, axis=0)
+            stdev = np.std(element_cluster, axis=0)
+            result[cluster] = {"mean": mean, "stdev": stdev}
+        return result
+
     def __choose_initial_representatives(self):
-        chosen_representatives = np.empty(shape=(self.k, len(self.original_dataset[0])))
+        """
+        Method that choose K-unique representatives for the original dataset
+        """
+        chosen_representatives = np.empty(
+            shape=(self.k, len(self.original_dataset[0])))
         i = 0
         while i < self.k:
             chosen_representative = self.original_dataset[rd.randint(0, len(self.original_dataset) - 1)]
@@ -97,19 +148,25 @@ class Kmeans:
                 i += 1
         self.representatives = np.array(chosen_representatives)
 
-    # Calculate the distance for each element to each representative and assigns a cluster
     def __calculate_distances(self):
+        """
+        Calculate the distance for each element to each representative and assigns a cluster
+        """
         for element in range(len(self.original_dataset)):
             distances = np.empty(self.k)
             for k in range(self.k):
                 distances[k] = sum((self.representatives[k] - self.original_dataset[element]) ** 2)
-            
+
             # Assigns the element to a cluster for the lowest distance
             self.c[element] = np.argmin(distances)
-        return distances
-    
-    # Calculates new representatives, mean from cluster it belongs to
+
     def __recalculate_representatives(self):
+        """
+        Calculates new representatives, mean from cluster it belongs to
+
+        Returns:
+            list: Contains the new representative for each cluster
+        """
         representatives = np.zeros_like(self.representatives)
         for k in range(self.k):
             elements = np.where(self.c == k)
@@ -117,14 +174,17 @@ class Kmeans:
             representatives[k] = avg
         return representatives
 
-    # Calculate the mean squared distance to each representative for each element in a cluster
     def __calculate_accuracy(self):
+        """
+        Calculate the mean squared distance to each representative for each element in a cluster
+        """
         total_accuracy = 0
         for cluster in range(self.k):
             cluster_accuracy = 0
             elements = np.where(self.c == cluster)
             for element in elements[0]:
-                cluster_accuracy += sum(pow((self.representatives[cluster] - self.original_dataset[element]), 2))
+                cluster_accuracy += sum(
+                    pow((self.representatives[cluster] - self.original_dataset[element]), 2))
             cluster_accuracy /= self.k
             total_accuracy += cluster_accuracy
         self.accuracy = total_accuracy
