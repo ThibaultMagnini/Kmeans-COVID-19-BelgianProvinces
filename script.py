@@ -40,7 +40,7 @@ for cluster in range(kmeans[4].k):
         elements_x.append(element[0])
         elements_y.append(element[1])
         elements_z.append(element[2])
-    ax.scatter3D(elements_x, elements_y, elements_z, c=colors[cluster], label=f"Cluster {cluster}", alpha=1)
+    ax.scatter3D(elements_x, elements_y, elements_z, c=colors[cluster], label=f"Cluster {cluster + 1}", alpha=1)
 ax.legend()
 plt.show()
 
