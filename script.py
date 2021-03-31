@@ -29,7 +29,7 @@ plt.show() """
 kmeans = {}
 for i in range(1, 6):
     kmeans[i] = Kmeans('Datasets/output.csv', i)
-    kmeans[i].read_csv(['INFECTION_RATE', 'ICU_RATE','UNEMPLOYEMENT_RATE', 'TEST_POS_PERCENTAGE'])
+    kmeans[i].read_csv(['INFECTION_RATE', 'ICU_RATE', 'TEST_POS_PERCENTAGE'])
     print(kmeans[i].original_dataset)
     kmeans[i].start_clustering()
 
@@ -63,10 +63,9 @@ for key in kmeans:
         row.append(kmeans[key].original_dataset[i][0])
         row.append(kmeans[key].original_dataset[i][1])
         row.append(kmeans[key].original_dataset[i][2])
-        row.append(kmeans[key].original_dataset[i][3])
         data.append(row)
 
-    table = pd.DataFrame(data, columns = ["Province", "Cluster", "Infection rate %", "ICU rate %", "Unemployment rate %", "Positive test rate %"])
+    table = pd.DataFrame(data, columns = ["Province", "Cluster", "Infection rate %", "ICU rate %", "Positive test rate %"])
     table = table.sort_values(by=['Cluster'])
     html = generate_html_table(table)
     

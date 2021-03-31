@@ -23,7 +23,7 @@ def draw_boxplot(data):
             temp.append(data[i][j])
         result.append(temp)
 
-    labels = ["Infection rate %", "ICU rate %", "Unemployment rate %", "Positive test rate %"]
+    labels = ["Infection rate %", "ICU rate %", "Positive test rate %"]
     plot = plt.boxplot(result, sym='yD', vert=True, patch_artist=True, labels=labels)
     colors = ["red", "green", "yellow", "purple", "cyan", "blue"]
     for patch, color in zip(plot['boxes'], colors):
