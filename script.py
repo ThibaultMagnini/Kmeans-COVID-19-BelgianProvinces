@@ -9,7 +9,7 @@ kmeans = {}
 for i in range(1, 6):
     kmeans[i] = Kmeans('Datasets/output.csv', i)
     kmeans[i].read_csv(['INFECTION_RATE', 'ICU_RATE', 'TEST_POS_PERCENTAGE'])
-    print(kmeans[i].original_dataset)
+    print(kmeans[i].get_dataset_info())
     kmeans[i].start_clustering()
 
 x = []

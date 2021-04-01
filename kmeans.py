@@ -123,6 +123,19 @@ class Kmeans:
             result[cluster] = {"mean": mean, "stdev": stdev, "max": maximum, "min": minimum}
         return result
 
+    def get_dataset_info(self):
+        """
+        Returns information about the dataset
+
+        Returns:
+            dict: Contains mean, stdev, max, min
+        """
+        mean = np.mean(self.original_dataset, axis=0)
+        stdev = np.std(self.original_dataset, axis=0)
+        maximum = np.amax(self.original_dataset, axis=0)
+        minimum = np.amin(self.original_dataset, axis=0)
+        return {"mean": mean, "stdev": stdev, "max": maximum, "min": minimum}
+
     def __choose_initial_representatives(self):
         """
         Method that choose K-unique representatives for the original dataset
