@@ -1,6 +1,7 @@
 # Kmeans-COVID-19-BelgianProvinces
 
-Jonas and I are currently researching provincial relations in Belgium during the COVID-19 Pandemic.
+Jonas and I are currently researching provincial clustering in Belgium during the COVID-19 Pandemic.
+This way we can cluster belgian provinces in regions of severity to provide guidance and insights into which regions should get priority in the vaccination strategy.
 This research is in collaboration with *Sao Paulo State University- The Universidade Estadual Paulista (UNESP)*
 
 Given the Governement Dataset we are looking for the correct parameters to cluster the different belgian provinces.
@@ -13,3 +14,8 @@ These are some intermediate results which are current applications of our cluste
 ## K means clustering algoritm
 
 This research is based on the Kmeans clustering algorithm.
+
+It was run several times with different predefined number of clusters, K.
+We calculate the sum mean squared within every cluster to check cluster validity and chose the optimal amount of clusters.
+The k-means clustering algoritm will iterate until convergence of the cluster centroids/representatives. 
+
