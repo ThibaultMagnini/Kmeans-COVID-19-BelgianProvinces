@@ -25,41 +25,16 @@ plt.ylabel("Sum of mean squared distances")
 plt.title("Elbow graph")
 plt.show()
 
-ax = plt.axes(projection='3d')
-ax.set_xlabel('Infection Rate (%)')
-ax.set_ylabel('ICU Rate (%)')
-ax.set_zlabel('Positive tests (%)')
-colors = ["red", "green", "cyan", "purple", "yellow", "blue"]
-
-rep_x = []
-rep_y = []
-rep_z = []
-
-for cluster in range(kmeans[4].k):
-    elements_x = []
-    elements_y = []
-    elements_z = []
-    elements = np.where(kmeans[4].c == cluster)
-    element_cluster = np.array(kmeans[4].original_dataset)[elements[0]]
-    for element in element_cluster:
-        elements_x.append(element[0])
-        elements_y.append(element[1])
-        elements_z.append(element[2])
-        ax.plot([element[0], kmeans[4].representatives[cluster][0]], [element[1], kmeans[4].representatives[cluster][1]], [element[2], kmeans[4].representatives[cluster][2]], c=colors[cluster])
-    ax.scatter3D(elements_x, elements_y, elements_z, c=colors[cluster], label=f"Cluster {cluster + 1}", alpha=1)
-    rep_x.append(kmeans[4].representatives[cluster][0])
-    rep_y.append(kmeans[4].representatives[cluster][1])
-    rep_z.append(kmeans[4].representatives[cluster][2])
-ax.scatter3D(rep_x, rep_y, rep_z, c="black", label="Representatives", alpha=1)
-ax.legend()
-plt.show()
+for key in kmeans:
+    kmeans[key].draw_scatter_plot_3d()
 
 with open("Results/index.html", "w") as file:
     file.write("")
 
+draw_boxplot(kmeans[1].original_dataset)
+
 for key in kmeans:
     data = []
-    draw_boxplot(kmeans[key].original_dataset)
     for i in range(len(kmeans[key].c)):   
         row = []
         row.append(look_for_province(kmeans[key].original_dataset[i]))

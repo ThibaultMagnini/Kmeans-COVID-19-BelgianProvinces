@@ -3,7 +3,6 @@ import pandas as pd
 import random as rd
 import matplotlib.pyplot as plt
 
-
 class Kmeans:
     """
     A class to represent a kmeans clustering
@@ -13,6 +12,7 @@ class Kmeans:
         c (list): Contains the information about which element belongs to which cluster
         representatives (list): Contains the representatives for the clustering
         accuracy (float): The mean squared distance for the model
+        features (list): The list with the names of all the features
         path (string): Path to the csv file for this model
         k (int): Amount of clusters for this model
     """
@@ -20,6 +20,7 @@ class Kmeans:
     c = []
     representatives = []
     accuracy = None
+    features = []
 
     def __init__(self, path, k):
         """
@@ -39,6 +40,7 @@ class Kmeans:
         Args:
             features (list): List of named features from the csv file that you want to use in the model
         """
+        self.features = features
         data = pd.read_csv(self.path)
         filtered_data = np.array([data[features[0]]]).T
         for i in range(1, len(features)):
@@ -69,17 +71,20 @@ class Kmeans:
         self.__calculate_accuracy()
         print("Clustering ended")
 
-    def draw_scatter_plot(self, xlabel, ylabel, xlim, ylim, show=True):
+    def draw_scatter_plot(self, xlim, ylim, show=True):
         """
         Draws the scatter plot of the kmeans clustering, should only be used when using 2 features in the model
 
         Args:
-            xlabel (string): label for the X-axis
-            ylabel (string): label for the Y-axis
             xlim (list): Contains the from-to interval for the X-axis
             ylim (list): Contains the from-to interval for the Y-axis
             show (bool, optional): Defines if you want to show the plot at the end of the method. Defaults to True.
+
+        Raises:
+            Exception: Throws an exception when you try to call this method when you don't have 2 features
         """
+        if len(self.features) != 2:
+            raise Exception("To draw a 2d scatter plot you can only have 2 features")
         colors = ["red", "green", "yellow", "purple", "cyan", "blue"]
         x = []
         y = []
@@ -97,11 +102,55 @@ class Kmeans:
                 plt.plot([element[0], x[cluster]], [element[1], y[cluster]], c=colors[int(cluster)], zorder=5)
             plt.scatter(elements_x, elements_y, c=colors[int(cluster)], label=f"Cluster {cluster}", zorder=0)
         plt.scatter(x, y, c="black", label=f"Representatives", zorder=10)
-        plt.xlabel(xlabel)
+        # The first feature will be on the X-axis
+        plt.xlabel(self.features[0])
         plt.xlim(xlim)
-        plt.ylabel(ylabel)
+        # The second feature will be on the Y-axis
+        plt.ylabel(self.features[1])
         plt.ylim(ylim)
         plt.legend()
+        if show:
+            plt.show()
+
+    def draw_scatter_plot_3d(self, show=True):
+        """
+        Draws the 3D scatter plot of the kmeans clustering, should only be used when using 3 features in the model
+
+        Args:
+            show (bool, optional): Defines if you want to show the plot at the end of the method. Defaults to True.
+
+        Raises:
+            Exception: Throws an exception when you try to call this method when you don't have 3 features
+        """
+        if len(self.features) != 3:
+            raise Exception("To draw a 2d scatter plot you can only have 3 features")
+        ax = plt.axes(projection='3d')
+        ax.set_xlabel(self.features[0])
+        ax.set_ylabel(self.features[1])
+        ax.set_zlabel(self.features[2])
+        colors = ["red", "green", "cyan", "purple", "yellow", "blue"]
+
+        rep_x = []
+        rep_y = []
+        rep_z = []
+
+        for cluster in range(self.k):
+            elements_x = []
+            elements_y = []
+            elements_z = []
+            elements = np.where(self.c == cluster)
+            element_cluster = np.array(self.original_dataset)[elements[0]]
+            for element in element_cluster:
+                elements_x.append(element[0])
+                elements_y.append(element[1])
+                elements_z.append(element[2])
+                ax.plot([element[0], self.representatives[cluster][0]], [element[1], self.representatives[cluster][1]], [element[2], self.representatives[cluster][2]], c=colors[cluster])
+            ax.scatter3D(elements_x, elements_y, elements_z, c=colors[cluster], label=f"Cluster {cluster + 1}", alpha=1)
+            rep_x.append(self.representatives[cluster][0])
+            rep_y.append(self.representatives[cluster][1])
+            rep_z.append(self.representatives[cluster][2])
+        ax.scatter3D(rep_x, rep_y, rep_z, c="black", label="Representatives", alpha=1)
+        ax.legend()
         if show:
             plt.show()
 
