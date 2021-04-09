@@ -8,12 +8,13 @@ import math
 kmeans = {}
 for i in range(1, 6):
     kmeans[i] = Kmeans('Datasets/output.csv', i)
-    kmeans[i].read_csv(['INFECTION_RATE', 'ICU_RATE', 'TEST_POS_PERCENTAGE'])
-    print(kmeans[i].get_dataset_info())
+    kmeans[i].read_csv(['STANDARD_INFECTION', 'STANDARD_ICU', 'STANDARD_POS_TEST'])
     kmeans[i].start_clustering()
 
 x = []
 y = []
+
+print(kmeans[4].accuracy)
 
 for key in kmeans:
     x.append(kmeans[key].k)
@@ -25,8 +26,7 @@ plt.ylabel("Sum of mean squared distances")
 plt.title("Elbow graph")
 plt.show()
 
-for key in kmeans:
-    kmeans[key].draw_scatter_plot_3d()
+kmeans[4].draw_scatter_plot_3d()
 
 with open("Results/index.html", "w") as file:
     file.write("")

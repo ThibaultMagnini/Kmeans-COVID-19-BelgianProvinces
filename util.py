@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 def look_for_province(list):
     data = pd.read_csv('Datasets\output.csv')
     for entry in data.itertuples():
-        if entry[2] == list[0]:
+        if entry[9] == list[0]:
             return entry[1]
     return 
 
