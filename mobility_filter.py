@@ -21,7 +21,10 @@ info_mobility_2021.drop('place_id', inplace=True, axis=1)
 info_mobility_2020.dropna(inplace=True, axis=0)
 info_mobility_2021.dropna(inplace=True, axis=0)
 
+dataframe_march_2021 = info_mobility_2021[info_mobility_2021.date.str.contains('3\/.*\/2021', na = False)]
 with open('Datasets\\filtered_mobility_data.csv', 'w', newline='') as f:
-    info_mobility_2020.to_csv(f, index=False)
-with open('Datasets\\filtered_mobility_data.csv', 'a', newline='') as f:
-    info_mobility_2021.to_csv(f, index=False)
+    dataframe_march_2021.to_csv(f, index=False)
+# with open('Datasets\\filtered_mobility_data.csv', 'w', newline='') as f:
+#     info_mobility_2020.to_csv(f, index=False)
+# with open('Datasets\\filtered_mobility_data.csv', 'a', newline='') as f:
+#     info_mobility_2021.to_csv(f, index=False)
