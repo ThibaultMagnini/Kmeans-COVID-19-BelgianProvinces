@@ -33,6 +33,8 @@ def calc_standard(index, result_index):
         data[key][result_index] = (data[key][index] - mean) / stdev
     return
 
+
+
 # Calculates total confirmed cases per province
 for entry in info_infections.itertuples():
     if re.search(r'2021-03-.', str(entry[1])):
@@ -56,6 +58,8 @@ for entry in info_test.itertuples():
         else:
             data[entry[2]][3] += entry[4]
             data[entry[2]][4] += entry[5]
+
+
 
 # Hospitalisations file
 for entry in info_icu.itertuples():
