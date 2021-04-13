@@ -155,7 +155,7 @@ def get_data_for_province(index):
 
 # Writes data to new csv file
 headers = ['PROVINCE', 'INFECTION_RATE', 'ICU_RATE', 'TEST_ALL', 'TEST_POS', 'TEST_POS_PERCENTAGE', 'TOTAL_TEST_PERCENTAGE', 'TOTAL_INFECTIONS', 'STANDARD_INFECTION', 'STANDARD_ICU', 'STANDARD_POS_TEST']
-with open("Datasets\\output.csv", "w", newline='') as outfile:
+with open("Datasets\\temp.csv", "w", newline='') as outfile:
    writer = csv.writer(outfile)
    writer.writerow(headers)
    for i in range(len(data)):
