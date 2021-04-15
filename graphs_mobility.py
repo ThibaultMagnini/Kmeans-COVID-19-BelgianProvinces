@@ -3,7 +3,9 @@ import pandas as pd
 import re
 
 data = pd.read_csv('Datasets\\filtered_mobility_data.csv')
+mean_data = pd.read_csv('Datasets\\output.csv')
 
+mean_provinces = {}
 provinces = {}
 
 for entry in data.itertuples():
@@ -23,6 +25,15 @@ for entry in data.itertuples():
         provinces[entry[4]][4].append(entry[10])
         provinces[entry[4]][5].append(entry[11])
 
+for entry in mean_data.itertuples():
+    if entry[1] not in mean_provinces:
+        mean_provinces[entry[1]] = [[entry[12], entry[13], entry[14], entry[15], entry[16], entry[17]], ['RETAIL_AND_RECREATION','GROCERY_AND_PHARMACY','PARKS','TRANSIT_STATIONS','WORKPLACES','RESIDENTIAL']]
+    
+
+for province in mean_provinces:
+    plt.bar(mean_provinces[province][1], mean_provinces[province][0], width=1)
+    plt.title(province)
+    plt.show()
 
 x = [i for i in range(31)]
 
