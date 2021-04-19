@@ -32,7 +32,7 @@ dataframe_march_2021['sub_region_2'].mask(dataframe_march_2021['sub_region_2'] =
 dataframe_march_2021['sub_region_2'].mask(dataframe_march_2021['sub_region_2'] == 'West Flanders', 'WestVlaanderen', inplace=True)
 
 mean_data = [dataframe_march_2021['sub_region_2'], dataframe_march_2021['retail_and_recreation_percent_change_from_baseline'], dataframe_march_2021['grocery_and_pharmacy_percent_change_from_baseline'], dataframe_march_2021['parks_percent_change_from_baseline'], dataframe_march_2021['transit_stations_percent_change_from_baseline'], dataframe_march_2021['workplaces_percent_change_from_baseline'], dataframe_march_2021['residential_percent_change_from_baseline']]
-mean_headers = ['PROVINCE', 'RETAIL_AND_RECREATION', 'GROVERY_AND_PHARMACY', 'PARKS', 'TRANSIT_STATIONS', 'WORKPLACES', 'RESIDENTIAL']
+mean_headers = ['PROVINCE', 'RETAIL_AND_RECREATION', 'GROCERY_AND_PHARMACY', 'PARKS', 'TRANSIT_STATIONS', 'WORKPLACES', 'RESIDENTIAL']
 merged_mean_df = pd.concat(mean_data, axis=1, keys=mean_headers)
 mean_df = merged_mean_df.groupby('PROVINCE').mean().round(decimals=4)
 print(mean_df)
