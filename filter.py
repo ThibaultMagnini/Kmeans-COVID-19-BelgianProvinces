@@ -39,7 +39,7 @@ def calc_standard(index, result_index):
 for entry in info_infections.itertuples():
     if re.search(r'2021-03-.', str(entry[1])):
         if entry[2] not in data:
-            data[entry[2]] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            data[entry[2]] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             data[entry[2]][0] += entry[6]
             data[entry[2]][7] += entry[6]
         else:
@@ -52,7 +52,7 @@ data.pop('nan', None)
 for entry in info_test.itertuples():
     if re.search(r'2021-03-.', str(entry[1])):
         if entry[2] not in data:
-            data[entry[2]] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            data[entry[2]] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             data[entry[2]][3] += entry[4]
             data[entry[2]][4] += entry[5]
         else:
@@ -65,7 +65,7 @@ for entry in info_test.itertuples():
 for entry in info_icu.itertuples():
     if re.search(r'2021-03-.', str(entry[1])):
         if entry[2] not in data:
-            data[entry[2]] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            data[entry[2]] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             data[entry[2]][1] += entry[6]
         else:
             data[entry[2]][1] += entry[6]
@@ -134,6 +134,21 @@ for key in data:
 
 calc_standard(5, 10)
 
+# Population density
+data["Antwerpen"][11] = 1869730 / (287612 / 100)
+data["Brussels"][11] = 1218255 / (16242 / 100)
+data["Liège"][11] = 1109800 / (385710 / 100)
+data["Limburg"][11] = 877370 / (242742 / 100)
+data["OostVlaanderen"][11] = 1525255 / (300706 / 100)
+data["VlaamsBrabant"][11] = 1155843 / (211836 / 100)
+data["BrabantWallon"][11] = 406016 / (109718 / 100)
+data["WestVlaanderen"][11] = 1200945 / (319658 / 100)
+data["Hainaut"][11] = 1346840 / (381283 / 100)
+data["Namur"][11] = 495832 / (367477 / 100)
+data["Luxembourg"][11] = 286752 / (445926 / 100)
+
+calc_standard(11, 12)
+
 # Formats data for output in CSV
 def get_data_for_province(index):
     result = []
@@ -150,11 +165,13 @@ def get_data_for_province(index):
     result.append(round(data[listdict[index]][8], 4))
     result.append(round(data[listdict[index]][9], 4))
     result.append(round(data[listdict[index]][10], 4))
+    result.append(round(data[listdict[index]][11], 4))
+    result.append(round(data[listdict[index]][12], 4))
     print(result)
     return result
 
 # Writes data to new csv file
-headers = ['PROVINCE', 'INFECTION_RATE', 'ICU_RATE', 'TEST_ALL', 'TEST_POS', 'TEST_POS_PERCENTAGE', 'TOTAL_TEST_PERCENTAGE', 'TOTAL_INFECTIONS', 'STANDARD_INFECTION', 'STANDARD_ICU', 'STANDARD_POS_TEST']
+headers = ['PROVINCE', 'INFECTION_RATE', 'ICU_RATE', 'TEST_ALL', 'TEST_POS', 'TEST_POS_PERCENTAGE', 'TOTAL_TEST_PERCENTAGE', 'TOTAL_INFECTIONS', 'STANDARD_INFECTION', 'STANDARD_ICU', 'STANDARD_POS_TEST', 'POPULATION_DENSITY']
 with open("Datasets\\temp.csv", "w", newline='') as outfile:
    writer = csv.writer(outfile)
    writer.writerow(headers)
