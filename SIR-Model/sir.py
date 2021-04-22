@@ -41,6 +41,7 @@ legend.get_frame().set_alpha(0.5)
 
 plt.show()
 
+
 """
 
 class SIR:
@@ -64,8 +65,8 @@ class SIR:
 
         return np.asarray([
 
-            -self.beta(t) * S * I, 
-            self.beta(t) * S * I - self.nu(t) * I,
+            -self.beta(t) * ((S * I) / (self.initial_conditions[0] + self.initial_conditions[1] + self.initial_conditions[2])), 
+            self.beta(t) * ((S * I) / (self.initial_conditions[0] + self.initial_conditions[1] + self.initial_conditions[2])) - self.nu(t) * I,
             self.nu(t) * I
 
         ])
@@ -73,7 +74,7 @@ class SIR:
 
 if __name__ == '__main__':
     
-    sir = SIR(0.14, 0.000944, 10000, 400, 350)
+    sir = SIR(0.14, 0.94, 15000, 400, 350)
 
     solver =  ForwardEuler(sir)
     solver.set_initial_conditions(sir.initial_conditions)

@@ -18,10 +18,10 @@ class ODESolver:
             self.number_of_equations = U0.size
         self.U0 = U0
     
+    
     def solve(self, time_points):
 
         self.t = np.asarray(time_points)
-        print(self.t)
         n = self.t.size
 
         self.u = np.zeros((n, self.number_of_equations))
