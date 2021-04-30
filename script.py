@@ -8,7 +8,7 @@ import math
 kmeans = {}
 for i in range(1, 6):
     kmeans[i] = Kmeans('Datasets/temp.csv', i)
-    kmeans[i].read_csv(['STANDARD_INFECTION', 'STANDARD_ICU', 'STANDARD_POS_TEST'])
+    kmeans[i].read_csv(['INFECTION_RATE', 'ICU_RATE', 'TEST_POS_PERCENTAGE'])
     kmeans[i].start_clustering()
 
 x = []
@@ -43,7 +43,6 @@ for key in kmeans:
         row.append(kmeans[key].original_dataset[i][0])
         row.append(kmeans[key].original_dataset[i][1])
         row.append(kmeans[key].original_dataset[i][2])
-        row.append(kmeans[key].original_dataset[i][3])
         data.append(row)
 
     table = pd.DataFrame(data, columns = ["Province", "Cluster", "Infection rate %", "ICU rate %", "Positive test rate %"])
