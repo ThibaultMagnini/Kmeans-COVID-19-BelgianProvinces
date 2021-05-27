@@ -2,6 +2,8 @@ import pandas as pd
 
 data = pd.read_csv("Datasets\COVID19BE_CASES_AGESEX.csv")
 
+inf = pd.read_csv("Datasets\\belgium_provinces_summed_data.csv")
+
 result = {}
 
 for entry in data.itertuples():
@@ -13,6 +15,4 @@ for entry in data.itertuples():
 
 result_list = list(result.values())
 
-
-
-print(result_list[0:30])
+print(inf.to_numpy)

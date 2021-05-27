@@ -17,7 +17,6 @@ def calc_standard(index, result_index):
     mean = 0
     stdev = 0
     for key in data:
-        print(key)
         mean += data[key][index]
     mean /= 11    
 
