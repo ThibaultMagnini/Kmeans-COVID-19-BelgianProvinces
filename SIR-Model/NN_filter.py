@@ -6,7 +6,7 @@ import csv
 
 ############################### DEATHS ########################################
 
-dfMor = pd.read_csv('Datasets\COVID19BE_MORT.csv')
+dfMor = pd.read_csv('..\Datasets\COVID19BE_MORT.csv')
 dfMor = dfMor.drop(columns=["REGION","AGEGROUP","SEX"])
 
 dfMor = dfMor.groupby(["DATE"], as_index=False).agg("sum")
@@ -40,13 +40,14 @@ for entry in dfMor.itertuples():
 ############################## RECOVERED CUMULATIVE #####################################################
 
 
-dataCon = pd.read_csv('Datasets\COVID19BE_CASES_AGESEX.csv')
+dataCon = pd.read_csv('..\Datasets\COVID19BE_CASES_AGESEX.csv')
 dataCon = dataCon.drop(columns=["PROVINCE","REGION","AGEGROUP","SEX"])
 dataCon = dataCon.groupby(["DATE"], as_index=False).agg("sum")
 dataCon['DATE'] = pd.to_datetime(dataCon.DATE)
 dataCon['DATE'] = dataCon['DATE'].dt.strftime('%m/%d/%Y')
 dataCon['CASES'] = dataCon['CASES'].cumsum()
 
+print(dataCon)
 
 dictcon={}
 for entry in dataCon.itertuples():
@@ -68,7 +69,7 @@ print(dictrec)
 
 ######################################################################################
 
-dfActive = pd.read_csv('Datasets\COVID19BE_CASES_AGESEX.csv')
+dfActive = pd.read_csv('..\Datasets\COVID19BE_CASES_AGESEX.csv')
 dfActive = dfActive.drop(columns=["PROVINCE","REGION","AGEGROUP","SEX"])
 dfActive = dfActive.groupby(["DATE"], as_index=False).agg("sum")
 dfActive['DATE'] = pd.to_datetime(dfActive.DATE)
@@ -84,9 +85,10 @@ for key in dictactive.keys():
 
 ######################################################################################
 
-with open('Datasets\\nn_data.csv', 'w', newline='') as file:
+with open('..\Datasets\\nn_data.csv', 'w', newline='', encoding='UTF-8') as file:
     csvwriter = csv.writer(file) 
-    csvwriter.writerow(["DATE", "ACTIVE", "RECOVERED_CUMULATIVE", "CONFIRMED_CUMULATIVE", "DEATHS"])
+    csvwriter.writerow(["Data", "At", "Rt", "Confirmados", "Óbitos"])
     for key in dictactive.keys():
-        csvwriter.writerow([key, dictactive[key], dictrec[key], dictcon[key], dictmor[key][1]])
+        if(re.search(r'(03|04|05)/.+/2021', key)):
+            csvwriter.writerow([key, dictactive[key], dictrec[key], dictcon[key], dictmor[key][1]])
 
