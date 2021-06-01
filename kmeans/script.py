@@ -1,7 +1,7 @@
-from kmeans import *
+from kmeans.kmeans import *
 import matplotlib.pyplot as plt
 from mpl_toolkits import mplot3d
-from util import *
+from utils.util import *
 import pandas as pd
 import math
 
