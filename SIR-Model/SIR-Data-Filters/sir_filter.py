@@ -1,8 +1,8 @@
 import pandas as pd
 
-data = pd.read_csv("Datasets\COVID19BE_CASES_AGESEX.csv")
+data = pd.read_csv("..\..\Datasets\COVID19BE_CASES_AGESEX.csv")
 
-inf = pd.read_csv("Datasets\\belgium_provinces_summed_data.csv")
+inf = pd.read_csv("..\..\Datasets\\belgium_provinces_summed_data.csv")
 
 result = {}
 
